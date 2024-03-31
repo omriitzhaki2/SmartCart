@@ -303,7 +303,7 @@ def plot_shortest_path_on_map(shortest_path):
     for i, coord in enumerate(walk_coordinates):
         if i % 10 == 0:
             x_coord, y_coord = coord
-            draw.text((y_coord, x_coord), str('•'), fill='black', font=font)
+            draw.text((y_coord, x_coord), str('*'), fill='black', font=font)
 
     products_df = pd.read_csv(PRODUCTS_PATH)
     for idx, node in enumerate(shortest_path, start=0):
