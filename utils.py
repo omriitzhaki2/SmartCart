@@ -299,12 +299,13 @@ def plot_shortest_path_on_map(shortest_path):
         walk_coordinates += nx.shortest_path(map_graph, source=shortest_path[index][1],
                                              target=shortest_path[index + 1][1])
 
-    font = ImageFont.load_default().font_variant(size=20)
+    font = ImageFont.load_default().font_variant(size=30)
     for i, coord in enumerate(walk_coordinates):
         if i % 10 == 0:
             x_coord, y_coord = coord
-            draw.text((y_coord, x_coord), str('■'), fill='black', font=font)
+            draw.text((y_coord, x_coord-20), str('.'), fill='black', font=font)
 
+    font = ImageFont.load_default().font_variant(size=20)
     products_df = pd.read_csv(PRODUCTS_PATH)
     for idx, node in enumerate(shortest_path, start=0):
         # Find the node in the DataFrame
