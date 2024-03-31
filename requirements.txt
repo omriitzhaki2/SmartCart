@@ -126,4 +126,6 @@ webencodings==0.5.1
 websocket-client==1.7.0
 widgetsnbextension==4.0.10
 zipp==3.17.0
-networkx
+networkx==2.7.1
+geopy==2.2.0
+
