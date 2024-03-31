@@ -66,3 +66,6 @@ def initial():
     if 'keren' not in st.session_state:
         st.session_state.keren = False
 
+    if 'shortest_path' not in st.session_state:
+        st.session_state.shortest_path = []
+
