@@ -33,7 +33,7 @@ END_NODE = ('end', (398, 510))
 def get_db_connection():
     with open('config.json', 'r') as file:
         config = json.load(file)
-    FIREBASE_JSON = st.secrets['FIREBASE_JSON']
+    FIREBASE_JSON = config['FIREBASE_JSON']
     db = firestore.Client.from_service_account_json(FIREBASE_JSON)
     return db
 
@@ -41,7 +41,7 @@ def get_db_connection():
 def get_GPS_location(city, street):
     with open('config.json', 'r') as file:
         config = json.load(file)
-    api_key = st.secrets['GOOGLE_API']
+    api_key = config['GOOGLE_API']
     params = {
         "engine": "google_maps",
         "q": f"{street} street, {city}",
@@ -58,7 +58,7 @@ def create_client_for_gpt():
     with open('config.json', 'r') as file:
         config = json.load(file)
 
-    OPENAI_KEY = st.secrets['OPENAI_KEY']
+    OPENAI_KEY = config['OPENAI_KEY']
     openai.api_key = OPENAI_KEY
     client = openai.OpenAI(api_key=OPENAI_KEY)
     return client
@@ -299,15 +299,12 @@ def plot_shortest_path_on_map(shortest_path):
         walk_coordinates += nx.shortest_path(map_graph, source=shortest_path[index][1],
                                              target=shortest_path[index + 1][1])
 
-
-    font_size = 20  # Specify the desired font size
-    font = ImageFont.truetype("arial.ttf", font_size)
+    font = ImageFont.load_default().font_variant(size=20)
     for i, coord in enumerate(walk_coordinates):
         if i % 10 == 0:
             x_coord, y_coord = coord
             draw.text((y_coord, x_coord), str('•'), fill='black', font=font)
 
-    font = ImageFont.load_default().font_variant(size=20)
     products_df = pd.read_csv(PRODUCTS_PATH)
     for idx, node in enumerate(shortest_path, start=0):
         # Find the node in the DataFrame
@@ -328,28 +325,3 @@ def plot_shortest_path_on_map(shortest_path):
         draw.text((x_loc, y_loc), str(idx), fill='black', font=font)
 
     png_map.save('layout/map.jpg')
-#     png_map.show()
-#
-#
-# df = pd.read_csv(PRODUCTS_PATH)
-# products_list = list(df['product_name'].sample(n=15, random_state=42))
-# # print(products_list)
-#
-# # Measure time taken by create_distance_products_graph function
-# start_time = time.time()
-# G = create_distance_products_graph(products_list)
-# end_time = time.time()
-# print('create_distance_products_graph:', round(end_time - start_time, 2), 'seconds')
-#
-# # Measure time taken by find_shortest_products_path function
-# start_time = time.time()
-# shortest_path = find_shortest_products_path_greedy(G, 5)
-# end_time = time.time()
-# print('find_shortest_products_path:', end_time - start_time, 'seconds')
-#
-# # Measure time taken by plot_shortest_path_on_map function
-# start_time = time.time()
-# plot_shortest_path_on_map(shortest_path)
-# end_time = time.time()
-# print('plot_shortest_path_on_map:', end_time - start_time, 'seconds')
-
