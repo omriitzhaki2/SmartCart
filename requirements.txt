@@ -128,4 +128,5 @@ widgetsnbextension==4.0.10
 zipp==3.17.0
 networkx==2.7.1
 geopy==2.2.0
+fuzzywuzzy
 
