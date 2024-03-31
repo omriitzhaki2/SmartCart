@@ -3,15 +3,16 @@ from layout.app_layout import *
 from initial_session_state import *
 from streamlit_extras.switch_page_button import switch_page
 
-initial()
-
 st.set_page_config(layout="centered",
                    initial_sidebar_state="collapsed",
                    page_title="SmartCart",
                    page_icon=f'layout/logo.jpg')
 
-set_button(buttons_right="-260", margin_top="10")
+set_button()
 set_background(rf'layout/background.png')
+
+st.session_state.clear()
+initial()
 
 st.markdown(streamlit_style, unsafe_allow_html=True)
 st.markdown(set_title("Welcome to SmartCart"), unsafe_allow_html=True)
