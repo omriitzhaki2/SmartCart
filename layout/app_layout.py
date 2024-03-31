@@ -125,7 +125,7 @@ def set_download_button(buttons_right="-260", margin_top="10"):
         , unsafe_allow_html=True)
 
 def set_logo(logo_width="200px"):
-    logo_path = rf'layout\logo_new.png'
+    logo_path = f'layout\logo_new.png'
     img_base64 = get_base64(logo_path)
     st.markdown(f"""
         <style>
