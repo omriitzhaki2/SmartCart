@@ -67,7 +67,7 @@ with tab1:
                                          unsafe_allow_html=True)
         check_availability_text1.markdown(set_text(f'\nAvailability of {chosen_product}:', 'left'), unsafe_allow_html=True)
         df = pd.DataFrame(st.session_state.missing_dict1).T
-        df = df.applymap(
+        df = df.map(
             lambda x: f'<div style="color:#03AC13;text-align: center;font-weight: bold;">✔</div>' if int(
                 x) > 0 else f'<div style="text-align: center;">❌</div>')
         check_availability = st.empty()
@@ -125,7 +125,7 @@ with tab2:
         selected_products = place_holder5.multiselect('', options=products, default=products, label_visibility='collapsed')
         with place_holder6.expander("Check availability of the products..."):
             df = pd.DataFrame(st.session_state.missing_dict2).T
-            df = df.applymap(lambda x: f'<div style="color:#03AC13;text-align: center;font-weight: bold;">✔</div>' if int(x) > 0 else f'<div style="text-align: center;">❌</div>')
+            df = df.map(lambda x: f'<div style="color:#03AC13;text-align: center;font-weight: bold;">✔</div>' if int(x) > 0 else f'<div style="text-align: center;">❌</div>')
             st.write(df.to_html(escape=False), unsafe_allow_html=True)
         if st.button('Add to shopping list', key='Add to shopping list2'):
             st.markdown(set_text('The items were added to your cart'), unsafe_allow_html=True)
@@ -196,7 +196,7 @@ with tab3:
         selected_products = place_holder6.multiselect('', options=products, default=products, label_visibility='collapsed')
         with place_holder7.expander("Check availability of the products..."):
             df = pd.DataFrame(st.session_state.missing_dict3).T
-            df = df.applymap(
+            df = df.map(
                 lambda x: f'<div style="color:#03AC13;text-align: center;font-weight: bold;">✔</div>' if int(
                     x) > 0 else f'<div style="text-align: center;">❌</div>')
             st.write(df.to_html(escape=False), unsafe_allow_html=True)
