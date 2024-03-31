@@ -33,7 +33,7 @@ END_NODE = ('end', (398, 510))
 def get_db_connection():
     with open('config.json', 'r') as file:
         config = json.load(file)
-    FIREBASE_JSON = config['FIREBASE_JSON']
+    FIREBASE_JSON = st.secrets['FIREBASE_JSON']
     db = firestore.Client.from_service_account_json(FIREBASE_JSON)
     return db
 
@@ -41,7 +41,7 @@ def get_db_connection():
 def get_GPS_location(city, street):
     with open('config.json', 'r') as file:
         config = json.load(file)
-    api_key = config['GOOGLE_API']
+    api_key = st.secrets['GOOGLE_API']
     params = {
         "engine": "google_maps",
         "q": f"{street} street, {city}",
@@ -58,7 +58,7 @@ def create_client_for_gpt():
     with open('config.json', 'r') as file:
         config = json.load(file)
 
-    OPENAI_KEY = config['OPENAI_KEY']
+    OPENAI_KEY = st.secrets['OPENAI_KEY']
     openai.api_key = OPENAI_KEY
     client = openai.OpenAI(api_key=OPENAI_KEY)
     return client
