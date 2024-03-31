@@ -1,5 +1,6 @@
 import streamlit as st
 import base64
+import os
 
 streamlit_style = """ <style>
 @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@100&display=swap');
@@ -125,7 +126,7 @@ def set_download_button(buttons_right="-260", margin_top="10"):
         , unsafe_allow_html=True)
 
 def set_logo(logo_width="200px"):
-    logo_path = f'layout\logo_new.png'
+    logo_path = os.path.join('layout', 'logo_new.png')
     img_base64 = get_base64(logo_path)
     st.markdown(f"""
         <style>
