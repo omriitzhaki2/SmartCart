@@ -11,8 +11,6 @@ st.set_page_config(layout="centered",
                    page_title="super map",
                    page_icon=f'layout/logo.jpg')
 
-st.markdown(set_title("SmartCart"), unsafe_allow_html=True)
-st.markdown(streamlit_style, unsafe_allow_html=True)
 set_logo()
 set_background(rf'layout/background.png')
 set_button()
@@ -23,7 +21,7 @@ if st.session_state.user is None:
     st.stop()
 
 
-st.markdown(set_subsubtitle(f'Your Fast Supermarket Route to {st.session_state.supermarket}'), unsafe_allow_html=True)
+st.markdown(set_subtitle(f'Your Fast Supermarket Route to {st.session_state.supermarket}:'), unsafe_allow_html=True)
 products_list = st.session_state.shopping_list
 if not st.session_state.finish:
     G = create_distance_products_graph(products_list)
@@ -34,12 +32,17 @@ if not st.session_state.finish:
 
 col1, col2 = st.columns([3, 1])
 with col1:
+    st.markdown(set_subsubtitle('The Map:'), unsafe_allow_html=True)
     st.image("layout/map.jpg")
 with col2:
-    st.markdown("### Grocery List:")
+    styled_text = ''
+    st.markdown(set_subsubtitle('Groceries:'), unsafe_allow_html=True)
     for idx, (item, location) in enumerate(st.session_state.shortest_path, start=0):
         if item != 'start' and item != 'end':
-            st.markdown(set_text(f"{idx}: {item}"), unsafe_allow_html=True)
+            styled_text += f"{idx}: {item} <br>"
+
+    # Display the constant text with a scroll bar
+    st.markdown(f"<div style='height: 520px; overflow-y: scroll;'>{set_text_groceries_list(styled_text, text_align='left')}</div>", unsafe_allow_html=True)
 
 
 # Save the image to a file
@@ -55,5 +58,5 @@ if st.download_button(label="Click to download the map",
                       key='download_image'):
     st.markdown(set_text('The map has been downloaded, enjoy the shopping!'), unsafe_allow_html=True)
 
-if st.button('Return to home'):
+if st.button('Return to Home'):
     switch_page('home')
