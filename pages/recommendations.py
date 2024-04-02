@@ -4,17 +4,37 @@ import time
 from utils import *
 from layout.app_layout import *
 from streamlit_extras.switch_page_button import switch_page
+from streamlit_extras.stylable_container import stylable_container
 
 st.set_page_config(layout="centered",
                    initial_sidebar_state="collapsed",
                    page_title="recommendations",
                    page_icon=f'layout/logo.jpg')
-st.markdown(set_title("SmartCart"), unsafe_allow_html=True)
-st.markdown(streamlit_style, unsafe_allow_html=True)
 set_logo()
 set_background(rf'layout/background.png')
 set_button()
 
+def update_shopping_list():
+    st.markdown(set_text(''), unsafe_allow_html=True)
+    st.markdown(set_subtitle('🍒 My Shopping List: 🍒'), unsafe_allow_html=True)
+    st.markdown(set_text(''), unsafe_allow_html=True)
+    st.session_state.shopping_list = list(set(st.session_state.shopping_list))
+    for item in st.session_state.shopping_list:
+        col1, col2, col3, col4 = st.columns([1, 2, 1, 1])
+        with col1:
+            st.markdown(set_text('🛒'), unsafe_allow_html=True)
+        with col2:
+            st.markdown(set_text_list(f"{item}", color='#2F2559'), unsafe_allow_html=True)
+        with col3:
+            with stylable_container(
+                    "home1",
+                    css_styles=set_custom_button(),
+            ):
+                if st.button("Remove 🗑", key=f'remove_{item}'):
+                    st.session_state.shopping_list.remove(item)
+                    st.experimental_rerun()
+        with col4:
+            st.markdown(set_text('🛒', text_align='left'), unsafe_allow_html=True)
 
 if st.session_state.user is None:
     st.error('You need to login or register')
@@ -23,7 +43,6 @@ if st.session_state.user is None:
 st.markdown(set_subtitle("Recommendations", 'left'), unsafe_allow_html=True)
 st.markdown(set_text('Products you may have forgotten:', 'left'), unsafe_allow_html=True)
 
-# st.session_state.recommendation = True
 previous_shopping_lists = st.session_state.user.get().to_dict()['history']
 current_shopping_list = {'time': int(time.time()), 'items': list(st.session_state.shopping_list)}
 if st.session_state.recommendation:
@@ -37,27 +56,9 @@ if st.button('Add to shopping list', key='omri'):
     for product in selected_products:
         st.session_state.shopping_list.append(product)
 
-st.markdown(set_subsubtitle('🛒 Your final shopping list: 🛒'), unsafe_allow_html=True)
-shopping_list = st.session_state.shopping_list
-shopping_list_text = "<br>".join(shopping_list)
-st.markdown(set_text(shopping_list_text), unsafe_allow_html=True)
+update_shopping_list()
 
 supermarket_names = st.session_state.user.get().to_dict()['nearest_supermarkets']
-
-if len(st.session_state.shopping_list) > 0:
-    temp = st.empty()
-    if temp.button('Update Shopping List'):
-        st.session_state.keren = not st.session_state.keren
-        temp.empty()
-
-    if st.session_state.keren:
-        temp.empty()
-        update_list = st.multiselect('', options=st.session_state.shopping_list, default=st.session_state.shopping_list,
-                                         label_visibility='collapsed')
-        if st.button('Finish Updating'):
-            st.session_state.shopping_list = update_list
-            st.session_state.keren = not st.session_state.keren
-            st.experimental_rerun()
 
 if st.button('Continue Shopping'):
     switch_page('shopping_list')
