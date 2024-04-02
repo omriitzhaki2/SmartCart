@@ -11,8 +11,6 @@ st.set_page_config(layout="centered",
                    page_title="register",
                    page_icon=f'layout/logo.jpg')
 
-st.markdown(set_title("Welcome to SmartCart"), unsafe_allow_html=True)
-st.markdown(streamlit_style, unsafe_allow_html=True)
 set_logo()
 set_background(rf'layout/background.png')
 set_button()
@@ -73,14 +71,13 @@ if st.session_state.register:
     df = pd.DataFrame(haifa_supermarkets)
     distances = {name: geodesic(user_location, coord).kilometers for name, coord in supermarket_locations.items()}
     sorted_supermarkets = sorted(supermarket_locations.items(), key=lambda x: distances[x[0]])
-    st.markdown(set_text(f'Closest Supermarket: {sorted_supermarkets[0][0]}'), unsafe_allow_html=True)
     map_data = st.map(df, color='color', zoom=12)
-    if st.button('Login'):
-        st.session_state.register = False
-        switch_page('login')
-
-
-
-
-
-
+    st.markdown(set_text(f'Your Closest Supermarket is: {sorted_supermarkets[0][0]}', 'left'), unsafe_allow_html=True)
+    st.markdown(set_text('Select 3 Favorite Supermarkets:', 'left'), unsafe_allow_html=True)
+    selected_products = st.multiselect('', options=supermarket_locations.keys(), default=supermarket_locations.keys(), label_visibility='collapsed')
+    if len(selected_products) != 3:
+        st.error('You have to choose 3 supermarkets')
+    else:
+        if st.button('Login'):
+            st.session_state.register = False
+            switch_page('login')
