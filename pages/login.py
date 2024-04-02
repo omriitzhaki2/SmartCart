@@ -11,10 +11,6 @@ st.set_page_config(layout="centered",
                    page_title="login",
                    page_icon=f'layout/logo.jpg')
 
-# Custom function to create a centered title
-
-st.markdown(set_title("Welcome to SmartCart"), unsafe_allow_html=True)
-st.markdown(streamlit_style, unsafe_allow_html=True)
 set_logo()
 set_background(rf'layout/background.png')
 set_button()
