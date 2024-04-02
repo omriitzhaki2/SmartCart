@@ -2,6 +2,8 @@ import streamlit as st
 from layout.app_layout import *
 from initial_session_state import *
 from streamlit_extras.switch_page_button import switch_page
+from streamlit_modal import Modal
+
 
 st.set_page_config(layout="centered",
                    initial_sidebar_state="collapsed",
@@ -14,8 +16,6 @@ set_background(rf'layout/background.png')
 st.session_state.clear()
 initial()
 
-st.markdown(streamlit_style, unsafe_allow_html=True)
-st.markdown(set_title("Welcome to SmartCart"), unsafe_allow_html=True)
 set_logo()
 
 st.markdown(set_subtitle('List It Right, Shop It Light:'), unsafe_allow_html=True)
@@ -25,18 +25,117 @@ st.markdown(set_text("""Our system helps you create a comprehensive shopping lis
             offers personalized recipes, tracks missing items,</br>
             and guides you through the store efficiently.</br>"""), unsafe_allow_html=True)
 st.markdown(set_text('Say goodbye to wasted time and and enjoy a seamless shopping journey!'), unsafe_allow_html=True)
+st.image('layout/cart.jpg')
 
-with st.expander("More Information..."):
-    st.markdown(set_text('Our smart shopping system revolutionizes the way you shop by:'), unsafe_allow_html=True)
-    st.markdown(set_text('Comprehensive Shopping Lists: Easily create and manage your shopping lists, with suggestions for similar products if an item is unavailable.'), unsafe_allow_html=True)
-    st.markdown(set_text('Personalized Recipes: Input a food item or choose a cuisine, and get delicious recipes along with the ingredients needed.'), unsafe_allow_html=True)
-    st.markdown(set_text('Efficient Shopping Routes: Receive a mapped-out route in the supermarket, optimized for the shortest path to collect all your items.'), unsafe_allow_html=True)
-    st.markdown(set_text('Forgotten Item Recommendations: Get reminders for items you may have forgotten based on your preferences and past choices.'), unsafe_allow_html=True)
-    st.markdown(set_text('Supermarket Recommendations: Discover the best supermarket to visit based on distance and item availability.'), unsafe_allow_html=True)
-    st.markdown(set_text('User-Friendly Interface: Seamlessly navigate through the system, from logging in to receiving your customized shopping map.'), unsafe_allow_html=True)
-    st.markdown(set_text('Convenient Email Notifications: Receive your personalized shopping map directly to your email for easy access.'), unsafe_allow_html=True)
-    st.markdown(set_text('Experience the convenience, efficiency, and ease of our smart shopping system, designed to simplify your grocery trips and enhance your overall shopping experience. Say hello to stress-free shopping!'), unsafe_allow_html=True)
+modal = Modal(key="Demo Key", title='')
+open_modal = st.button(label='More Information...')
+if open_modal:
+    with modal.container():
+        popup_content = """
+                    <div class="popup" id="popup">
+                        <h2 style="text-align: center;font-family: Trebuchet MS;color: #20115E;'">Our smart shopping system:</h2>
+                        <ul>
+                            <div style="line-height: 1.8;">🛒 Easily create and manage your shopping lists, with suggestions for similar products if an item is unavailable.<br></div>
+                            <div style="line-height: 1.8;">🛒 Input a food item or choose a cuisine, and get delicious recipes along with the ingredients needed.<br></div>
+                            <div style="line-height: 1.8;">🛒 Receive a mapped-out route in the supermarket, optimized for the shortest path to collect all your items.<br></div>
+                            <div style="line-height: 1.8;">🛒 Get reminders for items you may have forgotten based on your preferences and past choices.<br></div>
+                            <div style="line-height: 1.8;">🛒 Discover the best supermarket to visit based on distance and item availability.<br></div>
+                            <div style="line-height: 1.8;">🛒 Seamlessly navigate through the system, from logging in to receiving your customized shopping map.<br></div>
+                            <div style="line-height: 1.8;">🛒 Receive your personalized shopping map directly to your email for easy access.<br></div>
+                             <div style="text-align: center;"><br> Say hello to stress-free shopping!<br></div>
+                        </ul>                    
+                    </div>
 
+                """
+        st.markdown(popup_content, unsafe_allow_html=True)
+        close_modal = st.button(label='Close')
+
+        if close_modal:
+            modal.close()
+
+# if st.button("More Information..."):
+#     st.markdown(
+#         """
+#         <style>
+#         .popup {
+#             position: fixed;
+#             top: 40%;
+#             left: 50%;
+#             transform: translate(-30%, -5%);
+#             background-color: white;
+#             padding: 10px;
+#             border: 4px solid #20115E;
+#             z-index: 1000;
+#             font-family: Trebuchet MS;
+#         }
+#         </style>
+#         """
+#         , unsafe_allow_html=True)
+#
+#     st.markdown(
+#         """
+#         <script>
+#         function closePopup() {
+#             var popup = document.querySelector('.popup');
+#             popup.parentNode.removeChild(popup);
+#         }
+#         </script>
+#         """,
+#         unsafe_allow_html=True
+#     )
+#     st.markdown(
+#         """
+#         <script>
+#         function closePopup() {
+#             var popup = document.querySelector('.popup');
+#             popup.parentNode.removeChild(popup);
+#         }
+#         </script>
+#         """,
+#         unsafe_allow_html=True
+#     )
+#
+#     popup_content = """
+#             <div class="popup" id="popup">
+#                 <h2 style="text-align: center;font-family: Trebuchet MS;color: #20115E;'">Our smart shopping system:</h2>
+#                 <ul>
+#                     <div style="line-height: 1.8;">🛒 Easily create and manage your shopping lists, with suggestions for similar products if an item is unavailable.<br></div>
+#                     <div style="line-height: 1.8;">🛒 Input a food item or choose a cuisine, and get delicious recipes along with the ingredients needed.<br></div>
+#                     <div style="line-height: 1.8;">🛒 Receive a mapped-out route in the supermarket, optimized for the shortest path to collect all your items.<br></div>
+#                     <div style="line-height: 1.8;">🛒 Get reminders for items you may have forgotten based on your preferences and past choices.<br></div>
+#                     <div style="line-height: 1.8;">🛒 Discover the best supermarket to visit based on distance and item availability.<br></div>
+#                     <div style="line-height: 1.8;">🛒 Seamlessly navigate through the system, from logging in to receiving your customized shopping map.<br></div>
+#                     <div style="line-height: 1.8;">🛒 Receive your personalized shopping map directly to your email for easy access.<br></div>
+#                      <div style="text-align: center;"><br> Say hello to stress-free shopping!<br></div>
+#                 </ul>
+#                 <br>
+#                 <button onclick="closePopup()">Close</button>
+#             </div>
+#
+#         """
+#     st.markdown(popup_content, unsafe_allow_html=True)
+#
+#     st.markdown(
+#         """
+#         <script>
+#         function closePopup() {
+#             ;l';l;'l
+#         }
+#         </script>
+#         """,
+#         unsafe_allow_html=True
+#     )
+#
+#     if st.button("Close More Information"):
+#         st.markdown(
+#             """
+#             <script>
+#             var popup = document.querySelector('.popup');
+#             popup.parentNode.removeChild(popup);
+#             </script>
+#             """,
+#             unsafe_allow_html=True
+#         )
 
 if st.button('Login'):
     switch_page("login")
