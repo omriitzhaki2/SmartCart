@@ -2,6 +2,7 @@ import pandas as pd
 import streamlit as st
 import ast
 from streamlit_extras.switch_page_button import switch_page
+from streamlit_extras.stylable_container import stylable_container
 from layout.app_layout import *
 from utils import *
 
@@ -11,8 +12,6 @@ st.set_page_config(layout="centered",
                    page_title="shopping_list",
                    page_icon=f'layout/logo.jpg')
 
-st.markdown(set_title("SmartCart"), unsafe_allow_html=True)
-st.markdown(streamlit_style, unsafe_allow_html=True)
 set_logo()
 set_background(rf'layout/background.png')
 set_button()
@@ -28,10 +27,26 @@ st.markdown(set_text(f'Good to see you again'), unsafe_allow_html=True)
 
 
 def update_shopping_list():
-    st.markdown(set_subsubtitle('🛒 My Shopping List: 🛒'), unsafe_allow_html=True)
+    st.markdown(set_text(''), unsafe_allow_html=True)
+    st.markdown(set_subtitle('🍒 My Shopping List: 🍒'), unsafe_allow_html=True)
+    st.markdown(set_text(''), unsafe_allow_html=True)
     st.session_state.shopping_list = list(set(st.session_state.shopping_list))
     for item in st.session_state.shopping_list:
-        st.markdown(set_text(f"{item}"), unsafe_allow_html=True)
+        col1, col2, col3, col4 = st.columns([1, 2, 1, 1])
+        with col1:
+            st.markdown(set_text('🛒'), unsafe_allow_html=True)
+        with col2:
+            st.markdown(set_text_list(f"{item}", color='#2F2559'), unsafe_allow_html=True)
+        with col3:
+            with stylable_container(
+                    "home1",
+                    css_styles=set_custom_button(),
+            ):
+                if st.button("Remove 🗑", key=f'remove_{item}'):
+                    st.session_state.shopping_list.remove(item)
+                    st.experimental_rerun()
+        with col4:
+            st.markdown(set_text('🛒', text_align='left'), unsafe_allow_html=True)
 
 
 st.markdown(set_text(''), unsafe_allow_html=True)
@@ -118,9 +133,9 @@ with tab2:
         place_holder4 = st.empty()
         place_holder5 = st.empty()
         place_holder6 = st.empty()
-        place_holder1.markdown(set_subsubtitle('The Recipe:'), unsafe_allow_html=True)
+        place_holder1.markdown(set_subtitle('The Recipe:'), unsafe_allow_html=True)
         place_holder2.markdown(set_text_with_dots(recipe), unsafe_allow_html=True)
-        place_holder3.markdown(set_subsubtitle('The Groceries:'), unsafe_allow_html=True)
+        place_holder3.markdown(set_subtitle('The Groceries:'), unsafe_allow_html=True)
         place_holder4.markdown(set_text('Select products:', 'left'), unsafe_allow_html=True)
         selected_products = place_holder5.multiselect('', options=products, default=products, label_visibility='collapsed')
         with place_holder6.expander("Check availability of the products..."):
@@ -189,9 +204,9 @@ with tab3:
         place_holder5 = st.empty()
         place_holder6 = st.empty()
         place_holder7 = st.empty()
-        place_holder1.markdown(set_subsubtitle('The Recipe:'), unsafe_allow_html=True)
+        place_holder1.markdown(set_subtitle('The Recipe:'), unsafe_allow_html=True)
         place_holder2.markdown(set_text_with_dots(recipe), unsafe_allow_html=True)
-        place_holder3.markdown(set_subsubtitle('The Groceries:'), unsafe_allow_html=True)
+        place_holder3.markdown(set_subtitle('The Groceries:'), unsafe_allow_html=True)
         place_holder5.markdown(set_text('Select products:', 'left'), unsafe_allow_html=True)
         selected_products = place_holder6.multiselect('', options=products, default=products, label_visibility='collapsed')
         with place_holder7.expander("Check availability of the products..."):
@@ -216,24 +231,8 @@ with tab3:
             place_holder7.empty()
 
 
-update_shopping_list()
 if len(st.session_state.shopping_list) > 0:
-    temp = st.empty()
-    if temp.button('Update Shopping List'):
-        st.session_state.keren = not st.session_state.keren
-        temp.empty()
-
-    if st.session_state.keren:
-        temp.empty()
-        update_list = st.multiselect('', options=st.session_state.shopping_list, default=st.session_state.shopping_list,
-                                         label_visibility='collapsed')
-        if st.button('Finish Updating'):
-            st.session_state.shopping_list = update_list
-            st.session_state.keren = not st.session_state.keren
-            st.experimental_rerun()
-
-
+    update_shopping_list()
 
     if st.button('Finish Shopping List'):
         switch_page('recommendations')
-
