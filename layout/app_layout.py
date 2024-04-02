@@ -2,14 +2,6 @@ import streamlit as st
 import base64
 import os
 
-streamlit_style = """ <style>
-@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@100&display=swap');
-html, body, [class*="css"]  {
-font-family: 'Roboto', sans-serif;
-}
-</style>
-"""
-
 
 @st.cache_data
 def get_base64(bin_file):
@@ -34,29 +26,39 @@ def set_background(png_file):
 
 def set_title(title):
     return f"<h1 style='text-align: center; " \
-           f"color: #20115E';>{title}</h1>"
+           f"color: #20115E; font-family: Trebuchet MS;'>{title}</h1>"
 
 
 def set_subtitle(subtitle, text_align='center'):
     return f"<h2 style='text-align: {text_align}; " \
-           f"color: #20115E'>{subtitle}</h2>"
+           f"color: #20115E; font-family: Trebuchet MS;'>{subtitle}</h2>"
 
 
 def set_subsubtitle(subsubtitle, text_align='center'):
     return f"<h3 style='text-align: {text_align}; " \
-           f"color: #20115E'>{subsubtitle}</h3>"
+           f"color: #20115E; font-family: Trebuchet MS;'>{subsubtitle}</h3>"
 
 
-def set_text(text, text_align='center'):
+def set_text(text, text_align='center', color='#20115E'):
     return f"<h6 style='text-align: {text_align};" \
-           f"color: #20115E'>{text}</h6>"
+           f"color: {color}; font-family: Trebuchet MS;'>{text}</h6>"
+
+def set_text_list(text, text_align='left', color='#20115E'):
+    return f"<h6 style='text-align: {text_align};" \
+           f"color: {color}; font-size: 17px; font-family: Trebuchet MS;'>{text}</h6>"
+
+def set_text_groceries_list(text, text_align='left', color='#20115E'):
+    return f"<h6 style='text-align: {text_align};" \
+           f"color: {color}; font-size: 17px; line-height: 1.8;; font-family: Trebuchet MS;'>{text}</h6>"
 
 
 def set_text_with_dots(text):
     # Replace '.' with '.<br>' to add a line break after every period
-    formatted_text = text.replace('.', '.<br>')
-    return f"<h6 style='text-align: left;" \
-           f"color: #20115E'>{formatted_text}</h6>"
+    formatted_text = text.replace('.', '.<br> 🍴 ')
+    return f"<div style='border: 2px solid #20115E; border-radius: 10px; padding: 15px;'>" \
+           f"<h6 style='text-align: left;" \
+           f"color: #20115E; font-size: 17px; line-height: 1.8; font-family: Trebuchet MS;'>🍴 {formatted_text}</h6>" \
+           f"</div>"
 
 
 def set_button(buttons_right="-260", margin_top="10"):
@@ -66,8 +68,8 @@ def set_button(buttons_right="-260", margin_top="10"):
                 .stButton>button {{
                     font-size: 20px;
                     font-weight: bold;
-                    color: black;
-                    background-color: #6BA3A7;
+                    color: #FFFFFF;
+                    background-color: #25374A;
                     border-radius: 25px;
                     width: 200px;
                     height: 50px;
@@ -75,9 +77,10 @@ def set_button(buttons_right="-260", margin_top="10"):
                     right: {buttons_right}px;
                     margin-top: {margin_top}px;
                     justify-content: center;
+                    border: 2px solid white;
                 }}
                 .stButton>button:hover {{
-                    background-color: #2C8896;
+                    background-color: #325375;
                     color: #FFFFFF;
                     border-color: #FFFFFF;
                 }}
@@ -92,6 +95,62 @@ def set_button(buttons_right="-260", margin_top="10"):
             """
         , unsafe_allow_html=True)
 
+
+def set_button_list(buttons_right="-260", margin_top="0"):
+    st.markdown(
+        f"""
+            <style>
+                .stButton>button {{
+                    font-size: 20px;
+                    font-weight: bold;
+                    color: black;
+                    background-color: #00FF49;
+                    border-radius: 25px;
+                    width: 200px;
+                    height: 50px;
+                    position: relative;
+                    right: {buttons_right}px;
+                    margin-top: {margin_top}px;
+                    justify-content: center;
+                }}
+                .stButton>button:hover {{
+                    background-color: #00FF49;
+                    color: #FFFFFF;
+                    border-color: #FFFFFF;
+                }}
+                .stButton > button:active {{
+                    background-color: #00FF49;
+                    color: #FFFFFF;
+                    border-color: #FFFFFF;
+                    position: relative;
+                    top: 3px;
+                }}
+            </style>
+            """
+        , unsafe_allow_html=True)
+
+
+def set_custom_button():
+    css_style = f"""    
+                    button{{
+                    background-color: rgba(255, 255, 255, 0.5);
+                    border: 1px solid #D3D3D3;   
+                    font-size: 10px;
+                    height: 0px;
+                    right: 0px;
+                    width: 100px;
+                    color: #25374A;
+                    margin-top: -8px;    
+                    font-weight: bold;    
+                    display: block;  }}
+                    .stButton > button:hover {{  
+                    color: red;
+                }}
+                    """
+
+    return css_style
+
+
 def set_download_button(buttons_right="-260", margin_top="10"):
     st.markdown(
         f"""
@@ -99,8 +158,8 @@ def set_download_button(buttons_right="-260", margin_top="10"):
                 .stDownloadButton> button {{
                     font-size: 20px; 
                     font-weight: bold;
-                    color: black; 
-                    background-color: #6BA3A7; 
+                    color: white; 
+                    background-color: #25374A; 
                     border-radius: 25px;
                     width: 200px;
                     height: 50px;
@@ -110,12 +169,12 @@ def set_download_button(buttons_right="-260", margin_top="10"):
                     justify-content: center;
                 }}
                 .stDownloadButton> button :hover {{
-                    background-color: #2C8896;
+                    background-color: #325375;
                     color: #FFFFFF;
                     border-color: #FFFFFF;
                 }}
                 .stDownloadButton> button :active {{  
-                    background-color: #6BA3A7;
+                    background-color: #325375;
                     color: #FFFFFF;
                     border-color: #FFFFFF;
                     position: relative;  
@@ -125,8 +184,8 @@ def set_download_button(buttons_right="-260", margin_top="10"):
             """
         , unsafe_allow_html=True)
 
-def set_logo(logo_width="200px"):
-    logo_path = os.path.join('layout', 'logo_new.png')
+def set_logo(logo_width="350px"):
+    logo_path = os.path.join('layout', 'logo2.png')
     img_base64 = get_base64(logo_path)
     st.markdown(f"""
         <style>
@@ -134,7 +193,7 @@ def set_logo(logo_width="200px"):
                 display: flex;
                 justify-content: center;
                 align-items: center;
-                height: 20vh; /* Use the full height of the viewport */
+                height: 20vh;
             }}
             .logo {{
                 width: {logo_width};
@@ -144,8 +203,3 @@ def set_logo(logo_width="200px"):
             <img src="data:image/png;base64,{img_base64}" class="logo">
         </div>
     """, unsafe_allow_html=True)
-
-
-
-
-
