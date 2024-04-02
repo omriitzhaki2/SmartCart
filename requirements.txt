@@ -129,3 +129,4 @@ zipp==3.17.0
 networkx
 geopy
 fuzzywuzzy
+streamlit-modal==0.1.2
