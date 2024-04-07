@@ -1,37 +1,3 @@
-# import pandas as pd
-# import requests
-# from bs4 import BeautifulSoup
-# import csv
-#
-# def main():
-#     # Example usage
-#     query = "coffee"
-#     title, trend_data = scrape_google_trends(query)
-#
-#     if title and trend_data:
-#         print("Title:", title)
-#         print("Trend data:", trend_data[:10])  # Print the first 10 data points
-#         save_to_csv(title, trend_data, 'google_trends_data.csv')
-#         print("Data saved to google_trends_data.csv")
-#     else:
-#         print("Failed to retrieve data from Google Trends")
-#
-#     # products_path = 'data/products.csv'
-#     # departments_path = 'data/departments.csv'
-#     # aisles_path = 'data/aisles.csv'
-#     #
-#     # products_df = pd.read_csv(products_path)
-#     # departments_df = pd.read_csv(departments_path)
-#     # aisles_df = pd.read_csv(aisles_path)
-#     #
-#     # products_df = pd.merge(products_df, departments_df, on='department_id', how='left')
-#     # products_df = pd.merge(products_df, aisles_df, on='aisle_id', how='left')
-#     # products_df.to_csv('data/supermarket_products.csv')
-#
-#
-# if __name__ == '__main__':
-#     main()
-
 import asyncio
 from playwright.async_api import async_playwright
 
